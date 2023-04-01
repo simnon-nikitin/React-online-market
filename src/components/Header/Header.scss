@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Cookie&family=Inter:wght@400;500;600;700;800&family=Open+Sans:wght@300;700&family=Tinos:wght@400;700&display=swap');
+
+
+
+
+.header{
+    width: 1080px;
+    display: flex;
+    height: 128px;
+    border-bottom: 1px solid#EAEAEA ;
+    .header-left{
+        display: flex;
+        align-items: center;
+        margin-right: 30px;
+        .header__logo{
+            margin-left: 45px;
+        }
+        .header-left-titles{
+            margin-left: 16px;
+           
+            .header__title{
+                font-family: 'Inter';
+                font-weight: 700;
+                font-size: 20px;
+                margin: 0;
+            }
+            .header__subtitle{
+                font-family: 'Inter';
+                font-weight: 400;
+                font-size: 14px;
+                color: #9D9D9D;
+                margin-top: 0;
+            }
+        }
+    }
+
+    .header-right{
+        margin-left: auto;
+        display: flex;
+        color: #9B9B9B;
+        list-style-type: none;
+        margin-right: 45px;
+        align-items: center;
+        .cart{
+            cursor: pointer;
+            span{
+                margin-left: 10px;
+                cursor: text;
+                font-family: 'Inter';
+                font-weight: 600;
+                font-size: 14px;
+                color: #5C5C5C;
+            }
+        }
+        .heart{
+            margin-left: 30px;
+            cursor: pointer;
+        }
+        .user{
+            margin-left: 30px;
+        }
+    }
+
+}
+
