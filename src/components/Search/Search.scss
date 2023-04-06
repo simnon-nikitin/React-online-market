@@ -1,0 +1,23 @@
+.search--block{
+    width: 250px;
+    height: 45px;
+    border: 1px solid #F3F3F3;
+    border-radius: 10px;
+
+}
+.search__input {
+    width: 200px;
+    height: 45px;
+    border: 0;
+    padding: 10px;
+
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    outline:none;
+}
+.search__img {
+    margin-left: 18px;
+    margin-top: 15px;
+}

@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Cookie&family=Inter:wght@400;500;600;700;800&family=Open+Sans:wght@300;700&family=Tinos:wght@400;700&display=swap');
+
+
+.Mainbox{
+    height: 100%;
+    width: 385px;
+    border: 1px solid black;
+    z-index: 999;
+    margin-left: auto;
+    position: absolute;
+    background: white;
+    right: 0;
+}
+
+.cart-wrapper{
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+}
+.cart-top{
+    display: flex;
+    justify-content: space-between;
+
+    .cart__title{
+        font-weight: 700;
+        margin: 0;
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+    .close-btn{
+        cursor: pointer;
+        opacity: 0.5;  
+    }
+    .close-btn:hover{
+        opacity: 1;
+    }    
+    
+}
+
+.Cart-items{
+    margin: 0;
+    margin-bottom: 30px;
+    padding: 0;
+    list-style-type: none;
+    flex: 1;// Не работает!
+    //overflow: scroll;
+}
+// .Cart-items::-webkit-scrollbar {
+//    width: 10px;
+//   }
+.Cart__item{
+    width: 325px;
+    height: 119px;
+    border: 1px solid #F3F3F3;
+    border-radius: 20px;
+    display: flex;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    align-items: center;
+    margin-bottom: 20px;
+    .item__sneakersImg{
+        margin-left: 18px;
+    }
+    .text{
+        margin-left: 21px;
+        .item-price{
+            margin-top: 8px;
+
+            font-weight: 700;
+            font-size: 14px;
+        }
+    }
+    .delete-btn{
+        margin-right: 18px;
+        cursor: pointer;
+        opacity: 0.5;  
+    }
+    .delete-btn:hover{
+        opacity: 1;
+    }  
+}
+
+
+
+.cart-bottom{
+    margin-top: auto;
+    margin-bottom: 30px;
+}
+.line{
+    border-bottom: 1px dashed #DFDFDF;
+    flex: 1;
+    margin-left: 9px;
+    margin-right: 9px;
+    margin-bottom: 5px;
+    width: auto;
+}
+.sum{
+    display: flex;
+    font-size: 16px;
+    margin-bottom: 20px;
+    span{
+        font-weight: 400;
+    }
+    .amount{
+        font-weight: 600;
+    }
+}
+
+.discount{
+    display: flex;
+    font-size: 16px;
+
+    margin-bottom: 32px;
+    span{
+        font-weight: 400;
+    }
+    .percent{
+        font-weight: 600;
+    }
+}
