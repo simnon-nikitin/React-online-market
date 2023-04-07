@@ -2,27 +2,37 @@ import React, { useState } from "react";
 import './Card.scss'
 
    
-function Card() {
+function Card(props) {
 
-  const state = useState(0)
-    
+    const [isAdded, setIsAdded] = useState(false)
+    const [isFavorite, setIsFavorite] = useState(false)
+
+    const addToCart = () => {
+       setIsAdded(!isAdded);
+    }
+    const addToFavorite = () => {
+        setIsFavorite(!isFavorite);
+     }
+
   return (
     
     <div className="card">
         <div className="card--wrapper">
             <div className="card__image--favorite">
-                <img className="card__image" width={133} height={112} src="/img/Sneakers/1.jpg"></img>
-                <img className="favorite--btn" width={32} height={32} src="/img/Favorite--empty.svg"></img>
-                <img className="favorite--btn hidden" width={32} height={32} src="/img/Favorite--field.svg"></img>
+                <img className="card__image" width={133} height={112} src={props.productPicture}></img>
+                <button onClick={addToFavorite}>
+                    <img className="favorite--btn" width={32} height={32} src={isFavorite ? "/img/Favorite--field.svg" :"/img/Favorite--empty.svg"}></img>
+                </button>
             </div>
-            <p className="card__name">Мужские Кроссовки Nike Blazer Mid Suede</p>
+            <p className="card__name">{props.productName}</p>
             <div className="cardBottom">
                 <div>
                     <p className="card__price-title">Цена:</p>
-                    <p className="card__price">12 999 руб.</p>
+                    <p className="card__price">{props.productPrice} руб.</p>
                 </div>
-                    <img className="add-btn " width={32} height={32} src="/img/add-btn.svg"></img>
-                    <img className="added-btn hidden" width={32} height={32} src="/img/added-btn.svg"></img>
+                <button onClick={addToCart}>
+                    <img className="add-btn" width={32} height={32} src={isAdded ? "/img/added-btn.svg" : "/img/add-btn.svg"}></img>
+                </button>
             </div>
         </div>
     </div>

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import './Header.scss'
    
-function Header() {
+function Header(props) {
 
   const state = useState(0)
-    
+
   return (
     
 
@@ -20,7 +20,7 @@ function Header() {
 
         <ul className="header-right">
 
-          <li className="cart">
+          <li className="cart" onClick={props.onClickCart}>
             <img width={18} height={18} src="/img/cart.svg"></img>
             <span className="header__sum">0 руб.</span>
           </li>
