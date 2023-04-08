@@ -5,11 +5,11 @@ import Cart from "./components/Cart/Cart";
 import Card from "./components/Card/Card";
 import Search from "./components/Search/Search";
 
-let products = []
 
 function App() {
-  const [products, setProducts] = useState([])
-  const [cartOpened, setCartOpened] = useState(false)
+  const [products, setProducts] = useState([]);
+  const [cartOpened, setCartOpened] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
  
   useEffect(() => {
     fetch('https://64306a06b289b1dec4c7f3e7.mockapi.io/Products')
@@ -21,11 +21,15 @@ function App() {
       });
     }, []);
 
+    let  onAddToCart = function(obj){
+      setCartItems([...cartItems, obj])
+    }
+    console.log(cartItems)
   return (
     <div>
       <div className="CartShadow hidden"></div>
 
-      {cartOpened && <Cart  onClose = {() => setCartOpened(false)}/>}
+      {cartOpened && <Cart items={cartItems} onClose={() => setCartOpened(false)}/>}
         <div className="container">
 
        
@@ -38,13 +42,13 @@ function App() {
                 <Search/>
               </div>
               <div className="cards-wrapper">
-                {products.map((obj)=> (
+                {products.map((product)=> (
                   <Card
-                  productPicture={obj.picture}
-                  productName={obj.name}
-                  productPrice={obj.price}
+                  productPicture={product.picture}
+                  productName={product.name}
+                  productPrice={product.price}
                   onClickFavorite={() => console.log('добавлено в избранное')}
-                  onClickAdd={() => console.log('добавлено в корзину')}
+                  onClickAdd={(obj) => onAddToCart(obj)}
                   />
                 ))}
               </div>
