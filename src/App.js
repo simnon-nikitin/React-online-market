@@ -20,7 +20,7 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  
+  const [isProductsLoaded, setIsProductsLoaded] = useState(false);
 
   const onInput = (evt) => {
     setSearchValue(evt.target.value)
@@ -61,9 +61,9 @@ function App() {
 
 
   let onAddToCart = function(obj){
-    if(cartItems.find((item) => item.id === obj.id)) {
-      setCartItems(prev => prev.filter(item => item.id !== obj.id))
-      deleteItemFromCart(obj)
+    if(cartItems.find((item) => item.id == obj.id)) {
+      setCartItems(prev => prev.filter(item => item.id != obj.id))
+      onRemoveProduct(obj)
     } else {
       addItemToCart(obj)
       setCartItems((prev) => [...prev, obj]);
@@ -77,18 +77,27 @@ function App() {
 
   return (
     <div>
-      {cartOpened && <Cart items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveProduct}/>}
+
+      {cartOpened && <Cart 
+        items={cartItems} 
+        onClose={() => setCartOpened(false)} 
+        onRemove={onRemoveProduct}
+      />
+      }
+        
         <div className="container">
           <div className="wrapper">
+
             <Header onClickCart={() => setCartOpened(true)}/>
 
             <Routes>
               <Route path="/" element={
                 <Home 
-                  products={products}
-                  searchValue={searchValue}
-                  onAddToCart={onAddToCart} 
-                  onInput={onInput}
+                  products = {products}
+                  searchValue = {searchValue}
+                  onAddToCart = {onAddToCart} 
+                  onInput = {onInput}
+                  isLoading = {!products.length}
                 />}
               />
               <Route path="/favorites" element={<Favorites />} />

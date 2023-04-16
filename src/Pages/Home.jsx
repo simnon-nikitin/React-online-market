@@ -1,7 +1,42 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom";   
+
 import Card from "../components/Card/Card";
-function Home({products, searchValue, onAddToCart, onInput}) {
+
+function Home({products, searchValue, onAddToCart, onInput, isLoading}) {
+
+    const fakeCardsArray = [...Array(12)]
+
+    const renderProducts = () => {
+        if(isLoading){
+            return fakeCardsArray.map( (key) => (
+                <Card  
+                key={key}
+                loading = {isLoading}
+                />
+            ))
+        }else{
+
+            return products
+            .filter((product) => product.name.toLowerCase().includes(searchValue))
+            .map((product, key)=> (
+            <Card
+                key={key}
+                productId={product.id}
+                productPicture={product.picture}
+                productName={product.name}
+                productPrice={product.price}
+                productInCart={product.isInCart}
+                onClickFavorite={() => console.log('добавлено в избранное')}
+                onClickAdd={(obj) => onAddToCart(obj)}
+                inCart={product.isInCart}
+                loading = {isLoading}
+            />
+            )) 
+        }
+
+
+
+    }
 
   return (
     <div className="pad">  
@@ -14,20 +49,7 @@ function Home({products, searchValue, onAddToCart, onInput}) {
         </div>
 
         <div className="cards-wrapper">
-            {products.filter((product) => product.name.toLowerCase().includes(searchValue))
-            .map((product, key)=> (
-            <Card
-                key={key}
-                productId={product.id}
-                productPicture={product.picture}
-                productName={product.name}
-                productPrice={product.price}
-                productInCart={product.isInCart}
-                onClickFavorite={() => console.log('добавлено в избранное')}
-                onClickAdd={(obj) => onAddToCart(obj)}
-                inCart={product.isInCart}
-            />
-            ))}
+            {renderProducts( )}
         </div>
     </div>
   );
