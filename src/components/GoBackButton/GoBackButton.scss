@@ -1,0 +1,19 @@
+.GoBackButton {
+    margin-top: 40px;
+    color: white;
+    width: 245px;
+    height: 55px;
+    background: #9DD458;
+    border-radius: 18px;
+
+    img{
+       transition: transform ease-in-out 0.15s; 
+    }
+    
+}
+
+.GoBackButton:hover{
+    img{
+        transform: translateX(-5px)
+    }
+}

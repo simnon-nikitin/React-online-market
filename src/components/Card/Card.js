@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import './Card.scss'
 
    
-function Card({productPicture, productName, productPrice, onClickAdd}) {
+function Card({productId, productInCart, productPicture, productName, productPrice, onClickAdd}) {
 
-    const [isAdded, setIsAdded] = useState(false)
+    const [isAdded, setIsAdded] = useState(productInCart)
     const [isFavorite, setIsFavorite] = useState(false)
 
     const addToCart = () => {
-        onClickAdd({productPicture, productName, productPrice})
+        if (isAdded) {
+            // remove from cart...
+        } else {
+            // add to cart...
+        }
+
+        
+        onClickAdd({productPicture, productName, productPrice, id: productId})
         setIsAdded(!isAdded);
     }
     const addToFavorite = () => {
@@ -20,9 +27,9 @@ function Card({productPicture, productName, productPrice, onClickAdd}) {
     <div className="card">
         <div className="card--wrapper">
             <div className="card__image--favorite">
-                <img className="card__image" width={133} height={112} src={productPicture}></img>
+                <img className="card__image" width={133} height={112} src={productPicture} alt="product image"></img>
                 <button onClick={addToFavorite}>
-                    <img className="favorite--btn" width={32} height={32} src={isFavorite ? "/img/Favorite--field.svg" :"/img/Favorite--empty.svg"}></img>
+                    <img className="favorite--btn" width={32} height={32} src={isFavorite ? "/img/Favorite--field.svg" :"/img/Favorite--empty.svg"} alt="mark as favorite"></img>
                 </button>
             </div>
             <p className="card__name">{productName}</p>
@@ -32,7 +39,7 @@ function Card({productPicture, productName, productPrice, onClickAdd}) {
                     <p className="card__price">{productPrice} руб.</p>
                 </div>
                 <button onClick={addToCart}>
-                    <img className="add-btn" width={32} height={32} src={isAdded ? "/img/added-btn.svg" : "/img/add-btn.svg"}></img>
+                    <img className="add-btn" width={32} height={32} src={isAdded ? "/img/added-btn.svg" : "/img/add-btn.svg"} alt="add"></img>
                 </button>
             </div>
         </div>

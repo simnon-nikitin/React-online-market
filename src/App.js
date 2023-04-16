@@ -1,61 +1,102 @@
 import React, { useEffect, useState } from "react";
+
+
+import './variables.scss'
 import './App.scss'
+
+import { getCartItems, getProducts, addItemToCart, deleteItemFromCart } from './Api/Api'
 import Header from "./components/Header/Header";
 import Cart from "./components/Cart/Cart";
-import Card from "./components/Card/Card";
-import Search from "./components/Search/Search";
+import Home from "./Pages/Home";
+import Favorites from "./Pages/Favorites";
+
+import { Route, Routes } from "react-router-dom";
+
 
 
 function App() {
   const [products, setProducts] = useState([]);
-  const [cartOpened, setCartOpened] = useState(false);
+  const [isCartLoaded, setIsCartLoaded] = useState(false);
   const [cartItems, setCartItems] = useState([]);
- 
+  const [cartOpened, setCartOpened] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  
+
+  const onInput = (evt) => {
+    setSearchValue(evt.target.value)
+  }
+
   useEffect(() => {
-    fetch('https://64306a06b289b1dec4c7f3e7.mockapi.io/Products')
-      .then((res) => {
-        return res.json();
-      })
-      .then((json) => {
-        setProducts(json)
+    getCartItems()
+      .then(data => {
+        setCartItems(data);
+        setIsCartLoaded(true);
       });
     }, []);
 
-    let  onAddToCart = function(obj){
-      setCartItems([...cartItems, obj])
+  useEffect(() => {
+    if (isCartLoaded) {
+      getProducts()
+      .then(data => {
+        if (cartItems.length > 0) {
+          const productsClone = [ ...data ];
+          const cartItemsClone = [ ...cartItems ];
+          const cartItemsIds = cartItemsClone.map(cartItem => cartItem.id)
+
+          productsClone.map((product) => {
+            if (cartItemsIds.includes(product.id)) {
+              product.isInCart = true
+            }
+
+            return product;
+          });
+          
+          setProducts(productsClone)
+        } else {
+          setProducts(data)
+        }
+      });
     }
-    console.log(cartItems)
+  }, [isCartLoaded]);
+
+
+  let onAddToCart = function(obj){
+    if(cartItems.find((item) => item.id === obj.id)) {
+      setCartItems(prev => prev.filter(item => item.id !== obj.id))
+      deleteItemFromCart(obj)
+    } else {
+      addItemToCart(obj)
+      setCartItems((prev) => [...prev, obj]);
+    }
+  };
+
+  const onRemoveProduct = (obj) => {
+    deleteItemFromCart(obj)
+    setCartItems((prev) => prev.filter(product => product.id !==obj.id));
+  };
+
   return (
     <div>
-      <div className="CartShadow hidden"></div>
-
-      {cartOpened && <Cart items={cartItems} onClose={() => setCartOpened(false)}/>}
+      {cartOpened && <Cart items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveProduct}/>}
         <div className="container">
-
-       
           <div className="wrapper">
-            
             <Header onClickCart={() => setCartOpened(true)}/>
-            <div className="pad">
-              <div className="main-top">
-                <h1 className="title">Все кроссовки</h1>
-                <Search/>
-              </div>
-              <div className="cards-wrapper">
-                {products.map((product)=> (
-                  <Card
-                  productPicture={product.picture}
-                  productName={product.name}
-                  productPrice={product.price}
-                  onClickFavorite={() => console.log('добавлено в избранное')}
-                  onClickAdd={(obj) => onAddToCart(obj)}
-                  />
-                ))}
-              </div>
-            </div>
-        </div> 
-      </div>
-  </div> 
+
+            <Routes>
+              <Route path="/" element={
+                <Home 
+                  products={products}
+                  searchValue={searchValue}
+                  onAddToCart={onAddToCart} 
+                  onInput={onInput}
+                />}
+              />
+              <Route path="/favorites" element={<Favorites />} />
+            </Routes>
+            
+          </div> 
+        </div>
+    </div> 
   );
 }
 
