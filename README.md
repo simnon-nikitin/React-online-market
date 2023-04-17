@@ -2,9 +2,8 @@
  my first react project
 
 Stack:
-
-ReactJS + хуки
-React Router
-Axios
-SCSS
-React Skeleton
+- ReactJS + хуки
+- React Router
+- Axios
+- SCSS
+- React Skeleton
