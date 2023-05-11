@@ -1,64 +1,119 @@
-import React from "react";
-import './Cart.scss'
-import OrderButton from "../OrderButton/OrderButton";
-import GoBackButton from "../GoBackButton/GoBackButton";
+import { useContext, useEffect } from 'react';
+import './Cart.scss';
+import OrderButton from '../OrderButton/OrderButton';
+import GoBackButton from '../GoBackButton/GoBackButton';
+import { CartContext } from '../../contexts/CartContext';
+import { CartItemsContext } from '../../contexts/CartItemsContext';
+import { deleteItemFromCart, getCartItems } from '../../api/api';
 
-function Cart({items = [], onClose, onRemove}) {
-    
+function Cart() {
+  // const [state, dispatch] = useReducer();
+  // console.log(state, dispatch);
+  const { cartOpened, setCartOpened } = useContext(CartContext);
+  const { setCartItems, setIsCartLoaded, cartItems, sum, setSum, isOrderSend } =
+    useContext(CartItemsContext);
+  const isCartFull = cartItems.length > 0;
+  const handleClose = () => {
+    setCartOpened(false);
+  };
+  useEffect(() => {
+    getCartItems().then(({ data }) => {
+      setCartItems(data);
+      setIsCartLoaded(true);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const onRemoveItemFromCart = (obj) => {
+    deleteItemFromCart(obj.id);
+    setSum((prev) => prev - obj.price);
+    setCartItems((prev) => prev.filter((product) => product.id !== obj.id));
+  };
   return (
     <div>
-        <div className="CartShadow "></div>
-            <div className="cartBox"> 
-    
-                <div className="cart-wrapper">
+      {cartOpened && (
+        <div>
+          <div className="shadow " />
+          <div className="cart-contanier">
+            <div className="cart-wrapper">
+              <div className="cartTop">
+                <h2 className="cart__title">Корзина</h2>
+                <button onClick={handleClose} type="button">
+                  <img
+                    className="close--btn"
+                    width={32}
+                    height={32}
+                    src="/img/delete-btn.svg"
+                    alt="close cart"
+                  />
+                </button>
+              </div>
 
-
-                <div className="cart-top">
-                    <h2 className="cart__title">Корзина</h2> 
-                    <img onClick={onClose} className="close-btn" width={32} height={32} src="/img/delete-btn.svg" alt="close cart"></img>
-                </div>
-
-                {items.length > 0 ? 
+              {isCartFull && (
                 <div>
-                <ul className="Cart-items">
-                {items.map((obj, i) => (
-                        <li className="item" key={i}>
-                            <img className="item__picture" src={obj.productPicture} width={70} height={70} alt="product"></img>
-                            <div className="text">
-                                <p className="item-name">{obj.productName}</p>
-                                <p className="item-price">{obj.productPrice} руб.</p>
-                            </div>
-                            <img onClick={() => onRemove(obj)} className="delete-btn" width={32} height={32} src="/img/delete-btn.svg" alt="remove item"></img>
-                        </li>    ))}
-                    </ul>
-                
-                    <div className="cart-bottom">
-
-                        <div className="sum">
-                            <span>Итого:</span>
-                            <div className="line"></div>
-                            <span className="amount">0 руб.</span>
+                  <ul className="cart__items">
+                    {cartItems.map((obj, i) => (
+                      <li className="item" key={i}>
+                        <img
+                          className="item__picture"
+                          src={obj.picture}
+                          width={70}
+                          height={70}
+                          alt="product"
+                        />
+                        <div className="item__text">
+                          <p className="item__name">{obj.name}</p>
+                          <p className="item__price">{obj.price} руб.</p>
                         </div>
+                        <button onClick={() => onRemoveItemFromCart(obj)} type="button">
+                          <img
+                            className="delete--btn"
+                            width={32}
+                            height={32}
+                            src="/img/delete-btn.svg"
+                            alt="remove item"
+                          />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
 
-                        <div className="discount">
-                            <span>Скидка%</span>
-                            <div className="line"></div>
-                            <span className="percent">0 руб.</span>
-                        </div>
-
-                        <OrderButton/>
+                  <div className="cartBottom">
+                    <div className="sum">
+                      <span>Итого:</span>
+                      <div className="line" />
+                      <span className="amount">{sum} руб.</span>
                     </div>
+
+                    <div className="discount">
+                      <span>Скидка%</span>
+                      <div className="line" />
+                      <span className="percent">0 руб.</span>
+                    </div>
+
+                    <OrderButton />
+                  </div>
                 </div>
-                    :
-                <div className="cart-empty">
-                    <img width={120} height={120}  src="/img/empty-cart.png" alt="empty box"></img>
-                    <h3 className="cart-empty__title">Корзина пустая</h3>
-                    <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-                    <GoBackButton/>      
+              )}
+              {!isCartFull && !isOrderSend && (
+                <div className="cart--empty">
+                  <img width={120} height={120} src="/img/empty-cart.png" alt="empty box" />
+                  <h3 className="cart__title">Корзина пустая</h3>
+                  <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
+                  <GoBackButton />
                 </div>
-                }
+              )}
+              {!isCartFull && isOrderSend && (
+                <div className="cart--ready">
+                  <img src="/img/order-ready.png" width={83} height={120} alt="ready" />
+                  <h2 className="cart__title">Заказ оформлен!</h2>
+                  <p>Ваш заказ скоро будет передан курьерской доставке</p>
+                  <GoBackButton />
+                </div>
+              )}
             </div>
+          </div>
         </div>
+      )}
     </div>
   );
 }

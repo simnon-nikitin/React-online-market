@@ -1,0 +1,31 @@
+.order{
+    border: 1px solid #F3F3F3;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    .orderTop{
+        display: flex;
+        font-weight: 400;
+        font-size: 14px;
+        .order__number{
+            margin-left: 15px;
+        }
+        .order__date{
+            margin-left: 15px;
+        }
+        .order__status{
+            color: #9DD458;
+            margin-left: auto;
+            margin-right: 15px;
+        }
+    }
+    .order__list{
+        padding: 0 40px;
+    }
+   .order__sum{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 15px;
+    font-weight: 700;
+    font-size: 14px;
+   }
+}

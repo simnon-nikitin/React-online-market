@@ -5,14 +5,14 @@
     display: flex;
     height: 128px;
     border-bottom: 1px solid#EAEAEA ;
-    .header-left{
+    .headerLeft{
         display: flex;
         align-items: center;
         margin-right: 30px;
         .header__logo{
             margin-left: 45px;
         }
-        .header-left-titles{
+        .headerLeft__txt{
             margin-left: 16px;
            
             .header__title{
@@ -30,17 +30,18 @@
             }
         }
     }
-
-    .header-right{
+    .headerRight{
         margin-left: auto;
         display: flex;
-        color: #9B9B9B;
         list-style-type: none;
         margin-right: 45px;
         align-items: center;
-        .cart{
+        li {
+            margin-left: 30px;
             cursor: pointer;
-            span{
+        }
+
+            .header__counter{
                 margin-left: 10px;
                 cursor: text;
                 font-family: 'Inter';
@@ -48,15 +49,6 @@
                 font-size: 14px;
                 color: #5C5C5C;
             }
-        }
-        .heart{
-            margin-left: 30px;
-            cursor: pointer;
-        }
-        .user{
-            margin-left: 30px;
-        }
     }
-
 }
 

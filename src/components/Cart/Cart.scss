@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cookie&family=Inter:wght@400;500;600;700;800&family=Open+Sans:wght@300;700&family=Tinos:wght@400;700&display=swap');
 
-
-.cartBox{
+.cart-contanier {
     height: 100%;
     width: 385px;
     border: 1px solid black;
@@ -11,9 +10,8 @@
     background: white;
     right: 0;
     top: 0;
-}
-  
-.CartShadow{
+} 
+.shadow{
     position: fixed;
     z-index: 2;
     top: 0;
@@ -27,7 +25,7 @@
     display: flex;
     flex-direction: column;
 }
-.cart-top{
+.cartTop{
     display: flex;
     justify-content: space-between;
 
@@ -37,17 +35,15 @@
         font-size: 24px;
         margin-bottom: 30px;
     }
-    .close-btn{
+    .close--btn{
         cursor: pointer;
         opacity: 0.5;  
     }
-    .close-btn:hover{
+    .close--btn:hover{
         opacity: 1;
-    }    
-    
+    }       
 }
-
-.Cart-items{
+.cart__items{
     margin: 0;
     margin-bottom: 30px;
     padding: 0;
@@ -55,14 +51,13 @@
     overflow: scroll;
     overflow-x:hidden;
     height: 69vh;
-
 }
-.Cart-items::-webkit-scrollbar {
+.cart-items::-webkit-scrollbar {
     width: 10px;
     background: #e7e0e0;
     border-radius: 4px;
   }
-.Cart-items::-webkit-scrollbar-thumb {
+.cart-items::-webkit-scrollbar-thumb {
   background: #dad4d4;
   width: 8px;
   border-radius: 5px;
@@ -78,30 +73,29 @@
     line-height: 17px;
     align-items: center;
     margin-bottom: 20px;
-    .item__picture{
+    .item__picture {
         margin-left: 14px;
     }
-    .text{
+    .item__text {
         margin-left: 15px;
         max-width: 150px;
-        .item-price{
+        .item__price {
             margin-top: 8px;
             font-weight: 700;
             font-size: 14px;
         }
     }
-    .delete-btn{
+    .delete--btn{
         margin-left: 10px;
         margin-right: 5px;
         cursor: pointer;
         opacity: 0.5;  
     }
-    .delete-btn:hover{
+    .delete--btn:hover{
         opacity: 1;
     }  
 }
-
-.cart-bottom{
+.cartBottom{
     margin-bottom: 30px;
 }
 .line{
@@ -111,6 +105,7 @@
     margin-right: 9px;
     margin-bottom: 5px;
     width: auto;
+    
 }
 .sum{
     display: flex;
@@ -122,8 +117,7 @@
     .amount{
         font-weight: 600;
     }
-}
-
+    }
 .discount{
     display: flex;
     font-size: 16px;
@@ -136,13 +130,13 @@
         font-weight: 600;
     }
 }
-.cart-empty{
+.cart--empty {
     margin: 50% auto;
     width: 285px;
     height: 320px;
     text-align: center;
     align-items: center;
-    .cart-empty__title{
+    .cart__title{
         margin-top: 21px;
         font-weight: 600;
         font-size: 22px;
@@ -153,5 +147,28 @@
         font-size: 16px;
         line-height: 24px;
         opacity: 0.4;
+    }
+}
+.cart--ready{
+    margin: 50% auto;
+    width: 285px;
+    height: 320px;
+    text-align: center;
+    align-items: center;
+    .cart__title {
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 27px;
+        color: #87C20A;
+        margin-top: 30px;
+        margin-bottom: 9px;
+    }
+    p {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        opacity: 0.4;
+        margin-bottom: 40px;
     }
 }

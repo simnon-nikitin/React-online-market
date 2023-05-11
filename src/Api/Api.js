@@ -1,31 +1,48 @@
+import axios from 'axios';
 
-import axios from "axios";
+const apiURL = 'http://localhost:3001';
 
-const apiURL = 'https://64306a06b289b1dec4c7f3e7.mockapi.io'
+export const getCartItems = () => {
+  return axios.get(`${apiURL}/cart`);
+};
+export const getFavoritesItems = () => {
+  return axios.get(`${apiURL}/favorites`);
+};
+export const getProducts = () => {
+  return axios.get(`${apiURL}/products`);
+};
+export const getOrders = () => {
+  return axios.get(`${apiURL}/orders`);
+};
 
-export const getCartItems = async function() {
+export const addItemToCart = async (obj) => {
+  const response = await axios.post(`${apiURL}/cart`, obj);
 
-    const { data } = await axios.get(`${apiURL}/cart`)
-      
-    return data
-}
+  return response;
+};
+export const deleteItemFromCart = async (id) => {
+  const response = await axios.delete(`${apiURL}/cart/${id}`);
 
-export const getProducts = async function(){
+  return response;
+};
+export const addItemToFavorites = async (obj) => {
+  const response = await axios.post(`${apiURL}/favorites`, obj);
 
-    const { data } = await axios.get(`${apiURL}/products`)
-      
-    return data
-}
+  return response;
+};
+export const deleteItemFromFavorites = async (id) => {
+  const response = await axios.delete(`${apiURL}/favorites/${id}`);
 
-export const addItemToCart = async function(obj) {
+  return response;
+};
+export const sendNewOrder = async (arr, sum) => {
+  const d = new Date();
+  const order = {
+    items: arr,
+    date: `${d.getHours()}:${d.getMinutes()} ${d.getDate()}.${d.getMonth()}.${d.getFullYear()}`,
+    totalAmount: sum,
+  };
+  const response = await axios.post(`${apiURL}/orders`, order);
 
-    const response = await axios.post(`${apiURL}/cart`, obj)
-       
-    return response
-}
-export const deleteItemFromCart = async function(obj) {
-
-    const response = await axios.delete(`${apiURL}/cart${obj.id}`)
-       
-    return response
-}
+  return response;
+};

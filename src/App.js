@@ -1,112 +1,37 @@
-import React, { useEffect, useState } from "react";
+import './variables.scss';
+import './App.scss';
 
+import { Route, Routes } from 'react-router-dom';
 
-import './variables.scss'
-import './App.scss'
+import Header from './components/Header/Header';
+import Cart from './components/Cart/Cart';
+import Home from './pages/Home/Home';
+import OrderPage from './pages/OrderPage/OrderPage';
+import Favorites from './pages/Favorites/Favorites';
+import { CartProvider } from './contexts/CartContext';
+import { CartItemsProvider } from './contexts/CartItemsContext';
+import { FavoritesProvider } from './contexts/FavoritesContext';
 
-import { getCartItems, getProducts, addItemToCart, deleteItemFromCart } from './Api/Api'
-import Header from "./components/Header/Header";
-import Cart from "./components/Cart/Cart";
-import Home from "./Pages/Home";
-import Favorites from "./Pages/Favorites";
-
-import { Route, Routes } from "react-router-dom";
-
-
-
-function App() {
-  const [products, setProducts] = useState([]);
-  const [isCartLoaded, setIsCartLoaded] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const [cartOpened, setCartOpened] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [isProductsLoaded, setIsProductsLoaded] = useState(false);
-
-  const onInput = (evt) => {
-    setSearchValue(evt.target.value)
-  }
-
-  useEffect(() => {
-    getCartItems()
-      .then(data => {
-        setCartItems(data);
-        setIsCartLoaded(true);
-      });
-    }, []);
-
-  useEffect(() => {
-    if (isCartLoaded) {
-      getProducts()
-      .then(data => {
-        if (cartItems.length > 0) {
-          const productsClone = [ ...data ];
-          const cartItemsClone = [ ...cartItems ];
-          const cartItemsIds = cartItemsClone.map(cartItem => cartItem.id)
-
-          productsClone.map((product) => {
-            if (cartItemsIds.includes(product.id)) {
-              product.isInCart = true
-            }
-
-            return product;
-          });
-          
-          setProducts(productsClone)
-        } else {
-          setProducts(data)
-        }
-      });
-    }
-  }, [isCartLoaded]);
-
-
-  let onAddToCart = function(obj){
-    if(cartItems.find((item) => item.id == obj.id)) {
-      setCartItems(prev => prev.filter(item => item.id != obj.id))
-      onRemoveProduct(obj)
-    } else {
-      addItemToCart(obj)
-      setCartItems((prev) => [...prev, obj]);
-    }
-  };
-
-  const onRemoveProduct = (obj) => {
-    deleteItemFromCart(obj)
-    setCartItems((prev) => prev.filter(product => product.id !==obj.id));
-  };
-
+const App = () => {
   return (
-    <div>
-
-      {cartOpened && <Cart 
-        items={cartItems} 
-        onClose={() => setCartOpened(false)} 
-        onRemove={onRemoveProduct}
-      />
-      }
-        
-        <div className="container">
+    <CartItemsProvider>
+      <CartProvider>
+        <FavoritesProvider>
+          <Cart />
           <div className="wrapper">
-
-            <Header onClickCart={() => setCartOpened(true)}/>
-
-            <Routes>
-              <Route path="/" element={
-                <Home 
-                  products = {products}
-                  searchValue = {searchValue}
-                  onAddToCart = {onAddToCart} 
-                  onInput = {onInput}
-                  isLoading = {!products.length}
-                />}
-              />
-              <Route path="/favorites" element={<Favorites />} />
-            </Routes>
-            
-          </div> 
-        </div>
-    </div> 
+            <Header />
+            <div className="pad">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/favorites" element={<Favorites />} />
+                <Route path="/orders" element={<OrderPage />} />
+              </Routes>
+            </div>
+          </div>
+        </FavoritesProvider>
+      </CartProvider>
+    </CartItemsProvider>
   );
-}
+};
 
 export default App;

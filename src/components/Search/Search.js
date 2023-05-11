@@ -1,22 +1,14 @@
-import React, { useState } from "react";
-import './Search.scss'
+import './Search.scss';
 
-   
-function Search() {
-
-  const [searchValue, setSearchValue] = useState('');
-    
+function Search({ setSearchValue }) {
   const onInput = (evt) => {
-    console.log()
-    setSearchValue(evt.target.value)
-  }
+    setSearchValue(evt.target.value);
+  };
   return (
-    
-    <div className="search--block">
-        <img className="search__img" src="/img/search.svg" width={14} height={14}></img>
-        <input onChange={onInput} className="search__input" type="search" placeholder="Поиск..."></input>
+    <div className="search">
+      <img className="search__img" src="/img/search.svg" width={14} height={14} alt="search" />
+      <input onChange={onInput} className="search__input" type="search" placeholder="Поиск..." />
     </div>
-    
   );
 }
 
